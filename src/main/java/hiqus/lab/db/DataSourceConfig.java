@@ -1,7 +1,6 @@
 package hiqus.lab.db;
 
 import oracle.jdbc.pool.OracleDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -9,13 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- * Created by jh3389 on 10/4/15.
- */
 @Configuration
 @ComponentScan(basePackages = {"hiqus.lab"})
 @PropertySource({
@@ -24,7 +21,7 @@ import java.util.Properties;
         "classpath:/datasource.secondary.properties"})
 public class DataSourceConfig {
 
-    @Autowired
+    @Resource
     Environment env;
 
     @Bean
@@ -37,14 +34,6 @@ public class DataSourceConfig {
         dataSource.setImplicitCachingEnabled(true);
         dataSource.setFastConnectionFailoverEnabled(true);
         Properties properties = new Properties();
-        /*
-        MinLimit:1
-        MaxLimit:12
-        InitialLimit:1
-        ConnectionWaitTimeout:120
-        InactivityTimeout:180
-        ValidateConnection:true
-        */
         properties.setProperty("MinLimit", "1");
         properties.setProperty("MaxLimit", "8");
         properties.setProperty("InitialLimit", "1");
@@ -73,13 +62,12 @@ public class DataSourceConfig {
 
     @Bean
     public DataSourceTransactionManager primaryTransactionManager() throws SQLException {
-        // return new DataSourceTransactionManager( primaryDataSource() );
         return new DataSourceTransactionManager( primaryTransactionAwareDataSource() );
     }
 
     @Bean
     public JdbcTemplate primaryJdbcTemplate() throws SQLException {
-        return  new JdbcTemplate( primaryTransactionAwareDataSource() );
+        return new JdbcTemplate( primaryTransactionAwareDataSource() );
     }
 
 }

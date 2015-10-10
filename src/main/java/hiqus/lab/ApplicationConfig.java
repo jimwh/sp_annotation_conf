@@ -7,9 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 
-/**
- * Created by jh3389 on 10/2/15.
- */
 @Configuration
 @Import(DataSourceConfig.class)
 @ComponentScan(basePackages = {"hiqus.lab"})
@@ -21,7 +18,7 @@ public class ApplicationConfig {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         log.info("application start...");
         ApplicationContext ctx = SpringApplication.run(ApplicationConfig.class, args);
@@ -32,7 +29,7 @@ public class ApplicationConfig {
         Busboy busboy = ctx.getBean(Busboy.class);
         busboy.test();
 
-        System.exit(0);
+        SpringApplication.exit(ctx);
     }
 
 }
