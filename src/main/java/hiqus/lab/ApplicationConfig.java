@@ -5,15 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(DataSourceConfig.class)
 @ComponentScan(basePackages = {"hiqus.lab"})
-@PropertySource({
-        "classpath:/application.properties",
-        "classpath:/datasource.primary.properties",
-        "classpath:/datasource.secondary.properties"})
 public class ApplicationConfig {
 
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
